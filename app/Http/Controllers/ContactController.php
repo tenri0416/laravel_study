@@ -35,6 +35,15 @@ class ContactController extends Controller
         // これ以降の行は入力エラーがなかった場合のみ実行されます
         // 登録処理(実際はメール送信などを行う)
 
+        // 複数のメールアドレスを指定の場合
+        // $emails = [
+        //     'test1@example.com',
+        //     'test2@example.com',
+        //     'test3@example.com',
+        //     'test4@example.com',
+        // Mail::to($emails)->send(new Sample());
+        // ];
+
         //ここに相手のメールの宛先を書く
         Mail::to($request->email)->send(new ContactAdminMail($validated));
 
