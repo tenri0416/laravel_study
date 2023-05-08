@@ -30,8 +30,8 @@ return [
     | to immediately expire on the browser closing, set that option.
     |
     */
-
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    //セッションの有効期限は120分(2時間)と設定されている
+    'lifetime' => env('SESSION_LIFETIME', true),
 
     'expire_on_close' => false,
 
@@ -128,7 +128,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_session'
     ),
 
     /*

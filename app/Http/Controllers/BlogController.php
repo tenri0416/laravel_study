@@ -6,7 +6,10 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\StoreBlogRequest;
 use App\Http\Requests\Admin\UpdateBlogRequest;
+use App\Models\Category;
+use App\Models\Cat;
 use Illuminate\Support\Facades\Storage;
+
 
 class BlogController extends Controller
 {
@@ -15,7 +18,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::all();
+        $blogs = Blog::latest('updated_at')->paginate(10);
+
         //ブログ一覧表示
         return view('admin.blogs.index', ['blogs' => $blogs]);
     }
@@ -64,12 +68,17 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
 
+        $categorys = Category::all();
+        $cats = Cat::all();
         $blog = Blog::findOrFail($blog->id);
+
+
+
         // $blog = Blog::find($blog->id);
         // findとfindOrFailの違いは存在しないIDがあった場合,
         // findの場合はnullになりエラー分が出力される
         // findOrFailの場合404ページに飛ばされる
-        return view('admin.blogs.edit', ['blog' => $blog]);
+        return view('admin.blogs.edit', ['blog' => $blog, 'categorys' => $categorys, 'cats' => $cats]);
     }
 
     /**
@@ -85,6 +94,12 @@ class BlogController extends Controller
             Storage::disk('public')->delete($blog->image); //不要になった画像をstorage/public/から削除￥
             $updateDate['image'] = $request->file('image')->store('blogs', 'public');
         }
+        $blog->category()->associate($updateDate['category_id']);
+
+        // $blog->cats()->sync($updateDate['category_id'] ?? []);
+
+        $blog->cats()->sync($updateDate['cats'] ?? []);
+
         $blog->update($updateDate);
         return to_route('admin.blogs.index')->with('success', 'ブログを更新しました');
     }

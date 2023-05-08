@@ -29,7 +29,7 @@
                                         src="{{ asset('storage/' . $blog->image) }}" alt="">
                                     <p class="font-medium"><a href="#">{{ $blog->title }}</a></p>
                                 </td>
-                                <td class="font-medium">成長</td>
+                                <td class="font-medium">{{ $blog->category->name }}</td>
                                 <td class="font-medium">高橋</td>
                                 <td>{{ $blog->updated_at }}</td>
                                 <td>
@@ -61,6 +61,7 @@
                                 </td>
                             </tr>
                         @endforeach
+
                         {{-- }}
                 <tr class="text-sm">
                     <td class="flex px-4 py-3 items-center">
@@ -260,6 +261,7 @@
                 </svg>
             </a> --}}
             </div>
+            {{ $blogs->links() }}
             <!-- ▲▲▲▲ページャー▲▲▲▲　-->
     </section>
 @endsection

@@ -58,11 +58,16 @@
                             <div class="flex">
                                 <select id="category"
                                     class="appearance-none block pl-4 pr-8 py-3 mb-2 text-sm bg-white border rounded"
-                                    name="">
-                                    <option>Option 1</option>
-                                    <option>Option 2</option>
+                                    name="category_id">
+
+                                    <option value="">選択してください</option>
+                                    @foreach ($categorys as $category)
+                                        <option value="{{ $category->id }}"
+                                            @if ($category->id == old('category_id', $blog->category->id)) selected @endif>{{ $category->name }}</option>
+                                        {{-- <option>Option 2</option>
                                     <option>Option 3</option>
-                                    <option>Option 4</option>
+                                    <option>Option 4</option> --}}
+                                    @endforeach
                                 </select>
                                 <div
                                     class="pointer-events-none transform -translate-x-full flex items-center px-2 text-gray-500">
@@ -76,13 +81,18 @@
                             </div>
                         </div>
 
+
                         <div class="mb-6">
                             <label class="block text-sm font-medium mb-2">登場するねこ</label>
-                            <select id="js-pulldown" class="mr-6 w-full" name="" multiple>
-                                <option selected>Option 1</option>
-                                <option>Option 2</option>
-                                <option selected>Option 3</option>
-                                <option>Option 4</option>
+                            <select id="js-pulldown" class="mr-6 w-full" name="cats[]" multiple>
+                                <option value="">選択してください</option>
+                                {{-- {{ dd($blog->cats()) }} --}}
+                                @foreach ($cats as $cat)
+                                    <option value="{{ $cat->id }}" @if (in_array($cat->id, old('cats', $blog->cats->pluck('id')->all()))) selected @endif>
+                                        {{ $cat->name }}</option>
+                                @endforeach
+                                {{-- <option selected>Option 3</option>
+                                <option>Option 4</option> --}}
                             </select>
                         </div>
                     </div>
