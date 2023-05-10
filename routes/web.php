@@ -33,7 +33,7 @@ Route::get('/contact/complete', [ContactController::class, 'complete'])->name('c
 
 Route::prefix('/admin')
     ->name('admin.')
-    ->middleware('admin')
+
     ->group(function () {
         Route::middleware('auth')
             ->group(function () {
